@@ -12,14 +12,11 @@ import com.pentryyy.wallet_manager_api.exception.WalletNotFoundException;
 import com.pentryyy.wallet_manager_api.model.Wallet;
 import com.pentryyy.wallet_manager_api.repository.WalletRepository;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class WalletService {
 
     @Autowired
-    private final WalletRepository walletRepository;
+    private WalletRepository walletRepository;
 
     private Wallet getWallet(UUID walletId) {
         return walletRepository.findByWalletId(walletId)

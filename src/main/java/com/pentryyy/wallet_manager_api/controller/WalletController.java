@@ -13,33 +13,36 @@ import com.pentryyy.wallet_manager_api.exception.WalletNotFoundException;
 import com.pentryyy.wallet_manager_api.model.WalletRequest;
 import com.pentryyy.wallet_manager_api.service.WalletService;
 
-import jakarta.validation.Valid;
-
 import java.util.Map;
 import java.util.UUID;
 
-import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import lombok.RequiredArgsConstructor;
-
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
 public class WalletController {
 
     @Autowired
-    private final WalletService walletService;
+    private  WalletService walletService;
     
     private final ErrorResponseBuilder builder = new ErrorResponseBuilder();
 
     @PostMapping("/wallet")
-    @Around("postMappingWithPath('/wallet')")
-    public ResponseEntity<Map<String, Object>> updateBalance(@Valid @RequestBody WalletRequest request) {
+    public ResponseEntity<Map<String, Object>> updateBalance(@RequestBody WalletRequest request) {
+        
+        if (request.getOperationType() == null) {
+            return new ResponseEntity<>(builder.createErrorResponse("Операция не должна быть null"), HttpStatus.BAD_REQUEST);
+        }
+
+        Double amount = request.getAmount();
+        if (amount == null || amount < 0) {
+            return new ResponseEntity<>(builder.createErrorResponse("Значение суммы должно быть больше 0"), HttpStatus.BAD_REQUEST);
+        }
+
         try {
-            walletService.updateBalance(request.getWalletId(), request.getOperationType(), Math.abs(request.getAmount()));
+            walletService.updateBalance(request.getWalletId(), request.getOperationType(), request.getAmount());
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (WalletNotFoundException e) {
             return new ResponseEntity<>(builder.createErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
