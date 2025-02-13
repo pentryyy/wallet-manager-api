@@ -8,10 +8,21 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: UUID
+                  type: SERIAL
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
+
+              - column:
+                  name: wallet_id
+                  type: UUID
+                  constraints:
+                    unique: true
+                    nullable: false
+
               - column:
                   name: balance
-                  type: DECIMAL
+                  type: DOUBLE
                   defaultValue: 0
+                  constraints:
+                    nullable: false

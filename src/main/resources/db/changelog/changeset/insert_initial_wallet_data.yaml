@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert_initial_wallet_data
+      author: pentryyy
+      changes:
+        - sqlFile:
+            path: db/changelog/changeset/insert_initial_wallet_data.sql
