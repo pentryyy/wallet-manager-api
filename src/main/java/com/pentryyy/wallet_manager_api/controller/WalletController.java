@@ -13,6 +13,8 @@ import com.pentryyy.wallet_manager_api.exception.WalletNotFoundException;
 import com.pentryyy.wallet_manager_api.model.WalletRequest;
 import com.pentryyy.wallet_manager_api.service.WalletService;
 
+import jakarta.validation.Valid;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -35,14 +37,15 @@ public class WalletController {
 
     @PostMapping("/wallet")
     @Around("postMappingWithPath('/wallet')")
-    public ResponseEntity<Map<String, Object>> updateBalance(@RequestBody WalletRequest request) {
+    public ResponseEntity<Map<String, Object>> updateBalance(@Valid @RequestBody WalletRequest request) {
         try {
             walletService.updateBalance(request.getWalletId(), request.getOperationType(), Math.abs(request.getAmount()));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (WalletNotFoundException e) {
-           
             return new ResponseEntity<>(builder.createErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
         } catch (InsufficientFundsException e) {
+            return new ResponseEntity<>(builder.createErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (NullPointerException e) {
             return new ResponseEntity<>(builder.createErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }

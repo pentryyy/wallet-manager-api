@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.pentryyy.wallet_manager_api.enumeration.OperationType;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -17,5 +18,7 @@ public class WalletRequest {
 
     private UUID          walletId;
     private OperationType operationType;
-    private double        amount;
+
+    @NotNull
+    private Double amount;
 }
