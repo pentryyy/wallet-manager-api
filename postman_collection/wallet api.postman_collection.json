@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "1ae99933-a673-4080-aa4f-75c603f4b8ab",
+		"name": "wallet api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36625935"
+	},
+	"item": [
+		{
+			"name": "wallet balance by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/wallets/3be89838-83fe-4c16-a825-2b085f5d0c33",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"wallets",
+						"3be89838-83fe-4c16-a825-2b085f5d0c33"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update wallet balance",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"walletId\": \"3be89838-83fe-4c16-a825-2b085f5d0c33\",\r\n    \"operationType\": \"WITHDRAW\",\r\n    \"amount\": 15\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/api/v1/wallet",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"wallet"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
