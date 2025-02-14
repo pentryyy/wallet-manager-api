@@ -38,7 +38,7 @@ public class WalletController {
 
         Double amount = request.getAmount();
         if (amount == null || amount < 0) {
-            return new ResponseEntity<>(builder.createErrorResponse("Значение суммы должно быть больше 0"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(builder.createErrorResponse("Значение суммы должно быть больше или равно 0"), HttpStatus.BAD_REQUEST);
         }
 
         try {
