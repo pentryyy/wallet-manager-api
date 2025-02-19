@@ -23,6 +23,11 @@ public class WalletService {
                                .orElseThrow(() -> new WalletNotFoundException("Счет не найден"));
     }
 
+    private Wallet getWalletWithLock(UUID walletId) {
+        return walletRepository.findByWalletIdWithLock(walletId)
+                               .orElseThrow(() -> new WalletNotFoundException("Счет не найден"));
+    }
+
     private void deposit(Wallet wallet, double amount) {
         wallet.setBalance(wallet.getBalance() + amount);
         walletRepository.save(wallet);
@@ -38,7 +43,7 @@ public class WalletService {
 
     @Transactional
     public void updateBalance(UUID walletId, OperationType operationType, double amount) {
-        Wallet wallet = getWallet(walletId);
+        Wallet wallet = getWalletWithLock(walletId);
 
         if (OperationType.DEPOSIT.equals(operationType)) {
             deposit(wallet, amount);
